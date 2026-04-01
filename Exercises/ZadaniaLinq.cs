@@ -107,7 +107,12 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie06_CzyWszyscyProwadzacyMajaKatedre()
     {
-        throw Niezaimplementowano(nameof(Zadanie06_CzyWszyscyProwadzacyMajaKatedre));
+        return new[]
+        {
+            DaneUczelni.Prowadzacy.All(p => !string.IsNullOrWhiteSpace(p.Katedra))
+                ? "Kazdy ma uzupelniona katedre"
+                : "Nie wszyscy maja uzupelniona katedre"
+        };
     }
 
     /// <summary>
@@ -121,7 +126,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie07_LiczbaAktywnychZapisow()
     {
-        throw Niezaimplementowano(nameof(Zadanie07_LiczbaAktywnychZapisow));
+        return new[]
+        {
+            $"{DaneUczelni.Zapisy.Count(z => z.CzyAktywny)}"
+        };
     }
 
     /// <summary>
@@ -135,7 +143,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie08_UnikalneMiastaStudentow()
     {
-        throw Niezaimplementowano(nameof(Zadanie08_UnikalneMiastaStudentow));
+        return DaneUczelni.Studenci
+            .Select(s => s.Miasto)
+            .Distinct()
+            .OrderBy(s => s);
     }
 
     /// <summary>
@@ -150,7 +161,10 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie09_TrzyNajnowszeZapisy()
     {
-        throw Niezaimplementowano(nameof(Zadanie09_TrzyNajnowszeZapisy));
+        return DaneUczelni.Zapisy
+            .OrderByDescending(z => z.DataZapisu)
+            .Take(3)
+            .Select(z => $"Data: {z.DataZapisu:yyyy-MM-dd} | Student: {z.StudentId} | Przedmiot: {z.PrzedmiotId}");
     }
 
     /// <summary>
@@ -166,7 +180,11 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie10_DrugaStronaPrzedmiotow()
     {
-        throw Niezaimplementowano(nameof(Zadanie10_DrugaStronaPrzedmiotow));
+        return DaneUczelni.Przedmioty
+            .OrderBy(p => p.Nazwa)
+            .Skip(2)
+            .Take(2)
+            .Select(p => $"{p.Nazwa} {p.Kategoria}");
     }
 
     /// <summary>
